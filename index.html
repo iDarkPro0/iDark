@@ -15,6 +15,8 @@
             --border-color: #334155;
             --clicked-bg: #10b981;
             --clicked-hover: #059669;
+            --reset-bg: #ef4444;
+            --reset-hover: #dc2626;
         }
         * {
             box-sizing: border-box;
@@ -45,6 +47,28 @@
         .subtitle {
             color: var(--text-muted);
             font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+        .header-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .btn-reset {
+            background-color: var(--reset-bg);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-reset:hover {
+            background-color: var(--reset-hover);
         }
         
         /* DESKTOP TABLE VIEW */
@@ -188,6 +212,9 @@
         <header>
             <h1>BTC 5-Minute Markets</h1>
             <div class="subtitle">August 09, 2026 | Target: @KreoPolyBot</div>
+            <div class="header-actions">
+                <button class="btn-reset" onclick="resetAllClicks()">🔄 Reset All Statuses</button>
+            </div>
         </header>
 
         <div class="table-container">
@@ -2537,6 +2564,19 @@
             }
             if (row) {
                 row.classList.add('card-clicked');
+            }
+        }
+
+        function resetAllClicks() {
+            if (confirm("Reset all '✓ Sent' buttons back to normal for this date?")) {
+                localStorage.removeItem(STORAGE_KEY);
+                document.querySelectorAll('.btn-tg').forEach(btn => {
+                    btn.classList.remove('clicked');
+                    btn.innerText = '✈️ @KreoPolyBot';
+                });
+                document.querySelectorAll('tr').forEach(row => {
+                    row.classList.remove('card-clicked');
+                });
             }
         }
 
